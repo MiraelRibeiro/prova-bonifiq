@@ -1,9 +1,10 @@
-﻿namespace ProvaPub.Models
+﻿using prova_bonifiq.Models;
+
+namespace ProvaPub.Models
 {
 	public class ProductList
 	{
 		public List<Product> Products { get; set; }
-		public int TotalCount { get; set; }
-		public bool HasNext { get; set; }
+		public Complementation Complementation { get; set; }
 	}
 }

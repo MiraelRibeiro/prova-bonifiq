@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using prova_bonifiq.Models;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 
@@ -15,7 +16,17 @@ namespace ProvaPub.Services
 
         public CustomerList ListCustomers(int page)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            int skip = 0;
+
+			if(page != 0) skip = (int) Math.BigMul(10, page);
+
+			int count = _ctx.Products.ToList().Count;
+
+			var hasNext = !((skip + 10) >= count);
+
+			Complementation comp = new(){ HasNext = hasNext, TotalCount = 10};
+
+            return new CustomerList() { Complementation = comp, Customers = _ctx.Customers.Skip(skip).Take(10).ToList() };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
